@@ -3,7 +3,7 @@
 export const state = () => ({
   timers: [
     {
-      id:1, sec:10, timerOn: false,
+      id:1, sec:0, timerOn: false,
     }
   ]
 })
@@ -16,7 +16,6 @@ export const mutations = {
     const maxId = state.timers.reduce(function(acc, value) {
       return acc > value.id ? acc : value.id
     }, 0);
-    // const maxIdItem = Math.max.apply(null, state.timers.map(i => {return i.id;}))
     const pushItem = {id: maxId + 1, sec:0, timerOn: false,}
     state.timers.push(pushItem);
   },
@@ -29,9 +28,9 @@ export const mutations = {
   updateItem (state, item) {
     console.log("----------updateItem----------");
     console.log(item);
-    state.timers[item.key].sec = item.sec;
     state.timers.forEach((value) => {
-      if(value.timerOn) item.timerOn = false;
+      if(value.timerOn) value.sec = item.sec;
+      value.timerOn = false;
     });
     state.timers[item.key].timerOn = item.timerOn;
   },
@@ -39,11 +38,11 @@ export const mutations = {
 
 // gettersは他のページから状態管理しているデータにアクセスするときに使う。
 export const getters = {
-  timerList(state) {
+  timerList: (state) => {
     return state.timers;
   },
   getTimerById: (state) => (key) => {
-    return state.timers[key].sec;
+    return state.timers[key];
   },
 }
 

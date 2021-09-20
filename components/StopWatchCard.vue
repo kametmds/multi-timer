@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card v-for="item in timers" id="stop_watch_card" :key="item.id" class="my-1 rounded-lg d-flex flex-column" outlined tile >
+    <v-card v-for="(item, key) in timers" id="stop_watch_card" :key="item.id" class="my-1 rounded-lg d-flex flex-column" outlined tile >
       <v-card-title>タイマーNo.{{item.id}}</v-card-title>
       <!-- <StopWatch :item="item"/> -->
       <v-card-text class="stop-watch py-2 text-center">
@@ -16,7 +16,7 @@
       <v-card-actions class="">
         <v-btn v-if="!item.timerOn" class="passive-btn py-1 px-3 rounded-lg" @click="start(key, item)">Start</v-btn>
         <v-btn v-if="item.timerOn" class="active-btn py-1 px-3 rounded-lg" @click="stop(key)">Stop</v-btn>
-        <v-btn icon class="delete-btn" @click="deleteTimer(item.id)">
+        <v-btn icon class="delete-btn" @click="deleteTimer(key)">
           <font-awesome-icon :icon="['fas','trash']" />
         </v-btn>
       </v-card-actions>
@@ -52,16 +52,13 @@ export default {
     deleteTimer (key) {
       this.deleteTimerItem(key);
     },
-    count() {
-      this.sec += 1
-    },
     start(key) {
-      const self = this;
-      self.sec = this.timer(key);
-      this.timerObj = setInterval(function(){
-        self.count();
-      }, 1000)
       this.updateTimerItem({key, sec: this.sec, timerOn: true});
+      this.sec = this.timer(key).sec;
+      clearInterval(this.timerObj);
+      this.timerObj = setInterval(() => {
+        this.sec += 1;
+      }, 1000)
     },
     stop(key) {
       this.updateTimerItem({key, sec: this.sec, timerOn: false});
