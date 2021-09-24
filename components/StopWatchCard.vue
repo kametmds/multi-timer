@@ -1,9 +1,10 @@
 <template>
   <div>
     <v-card v-for="(item, key) in timers" id="stop_watch_card" :key="item.id" class="my-1 rounded-lg d-flex flex-column" outlined tile >
-      <v-card-title>タイマーNo.{{item.id}}</v-card-title>
-      <!-- <StopWatch :item="item"/> -->
-      <v-card-text class="stop-watch py-2 text-center">
+      <v-card-title class="pt-3 pb-1 text-center">
+          <v-text-field outlined label="Name" :value="item.name" @input="changeName(key, $event)"></v-text-field>
+      </v-card-title>
+      <v-card-text class="py-1 text-center">
         <div class="watch-time text-h2 black--text">
           <div v-if="!item.timerOn">
           {{ formatTime(item.sec) }}
@@ -13,12 +14,13 @@
           </div>
         </div>
       </v-card-text>
-      <v-card-actions class="">
-        <v-btn v-if="!item.timerOn" class="passive-btn py-1 px-3 rounded-lg" @click="start(key, item)">Start</v-btn>
-        <v-btn v-if="item.timerOn" class="active-btn py-1 px-3 rounded-lg" @click="stop(key)">Stop</v-btn>
-        <v-btn icon class="delete-btn" @click="deleteTimer(key)">
-          <font-awesome-icon :icon="['fas','trash']" />
-        </v-btn>
+      <v-divider></v-divider>
+      <v-card-actions class="d-flex justify-space-between">
+          <v-btn v-if="!item.timerOn" class="rounded-lg col-10" @click="start(key, item)">Start</v-btn>
+          <v-btn v-if="item.timerOn" class="rounded-lg col-10" color="primary" @click="stop(key)">Stop</v-btn>
+          <v-btn icon class="rounded-lg" @click="deleteTimer(key)">
+            <font-awesome-icon :icon="['fas','trash']" />
+          </v-btn>
       </v-card-actions>
     </v-card>
   </div>
@@ -26,12 +28,8 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-// import StopWatch from './StopWatch.vue'
 
 export default {
-  // components: {
-  //   StopWatch
-  // },
   data() {
     return {
       sec: 0,
@@ -42,13 +40,15 @@ export default {
     ...mapGetters({
       timers: 'StopWatch/timerList',
       timer: 'StopWatch/getTimerById'
-    }),
+    })
   },
   methods: {
     ...mapActions({
-      updateTimerItem: 'StopWatch/update',
-      deleteTimerItem: 'StopWatch/delete'
+      deleteTimerItem: 'StopWatch/deleteItem',
+      updateTimerItem: 'StopWatch/updateItem',
+      changeTimerName: 'StopWatch/changeName',
     }),
+    // ...mapActions(['deleteItem', 'updateItem', 'changeName']),
     deleteTimer (key) {
       this.deleteTimerItem(key);
     },
@@ -69,6 +69,9 @@ export default {
     formatTime(sec) {
       return this.SecToTime(sec)
     },
+    changeName(key, name) {
+      this.changeTimerName({key, name});
+    }
   }
 }
 </script>

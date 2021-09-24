@@ -31,7 +31,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      timers: 'StopWatch/timerList',
       timer: 'StopWatch/getTimerById'
     }),
   },
@@ -40,14 +39,12 @@ export default {
       updateTimerItem: 'StopWatch/update',
       deleteTimerItem: 'StopWatch/delete'
     }),
-    deleteTimer (key) {
-      this.deleteTimerItem(key);
-    },
     count() {
       this.sec += 1
     },
     start(key) {
       const self = this;
+      // this.timerObj = null;
       self.sec = this.timer(key);
       this.timerObj = setInterval(function(){
         self.count();

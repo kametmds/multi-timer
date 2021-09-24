@@ -16,12 +16,7 @@ export default {
 }
 </script>
 
-<style>
-div {
-  display: flex;
-  flex-direction: column;
-}
-
+<style scoped>
 .body {
   display: flex;
   flex-direction: row;

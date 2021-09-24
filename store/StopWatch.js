@@ -3,36 +3,39 @@
 export const state = () => ({
   timers: [
     {
-      id:1, sec:0, timerOn: false,
+      id: 1,
+      name: 'タイマーNo.1',
+      sec:0,
+      timerOn: false
     }
   ]
 })
 
 // mutationsはstateのオブジェクトに変更を加えるメソッドを書く。
 export const mutations = {
-  // 追加
+  // 時間カード追加
   addItem (state) {
-    console.log("----------addItem----------");
     const maxId = state.timers.reduce(function(acc, value) {
       return acc > value.id ? acc : value.id
     }, 0);
-    const pushItem = {id: maxId + 1, sec:0, timerOn: false,}
+    const pushItem = {id: maxId + 1, name: `タイマーNo.${maxId + 1}`, sec:0, timerOn: false,}
     state.timers.push(pushItem);
   },
-  // 削除
+  // 時間カード削除
   deleteItem (state, key) {
-    console.log("----------deleteItem----------");
     state.timers.splice(key, 1);
   },
-  // 更新
+  // 時間更新
   updateItem (state, item) {
-    console.log("----------updateItem----------");
-    console.log(item);
     state.timers.forEach((value) => {
       if(value.timerOn) value.sec = item.sec;
       value.timerOn = false;
     });
     state.timers[item.key].timerOn = item.timerOn;
+  },
+  // 名前変更
+  changeName (state, item) {;
+    state.timers[item.key].name = item.name;
   },
 }
 
@@ -48,16 +51,20 @@ export const getters = {
 
 // actionsはストアを使うときのアクションを書く。
 export const actions = {
-  // 追加
-  add({ commit }, text) {
+  // 時間カード追加
+  addItem({ commit }, text) {
     commit('addItem', text);
   },
-  // 削除
-  delete({ commit }, key) {
+  // 時間カード削除
+  deleteItem({ commit }, key) {
     commit('deleteItem', key);
   },
-  // 更新
-  update({ commit }, {key, sec, timerOn}) {
+  // 時間更新
+  updateItem({ commit }, {key, sec, timerOn}) {
     commit('updateItem', {key, sec, timerOn});
+  },
+  // 名前変更
+  changeName({ commit }, {key, name}) {
+    commit('changeName', {key, name});
   }
 }
