@@ -8,10 +8,11 @@
 https://serene-hoover-114cd8.netlify.app/stopwatch/
 
 ![スクリーンショット 2021-09-27 17 38 33](https://user-images.githubusercontent.com/51075691/134875882-51cd655d-f0b9-403c-90ae-6aa2c90ff31e.png)
-①ストップウォッチタイマーの追加
-②タイマー名の変更
-③計測開始／停止
-④タイマーの削除
+
+①ストップウォッチタイマーの追加  
+②タイマー名の変更  
+③計測開始／停止  
+④タイマーの削除  
 
 ## 環境：Environment
 - "core-js": "^3.15.1",
