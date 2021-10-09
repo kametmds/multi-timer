@@ -13,12 +13,21 @@ export const state = () => ({
 
 // mutationsはstateのオブジェクトに変更を加えるメソッドを書く。
 export const mutations = {
+  // 時間リスト更新
+  updateList (state, item) {
+    state.timers = item;
+  },
   // 時間カード追加
   addItem (state) {
     const maxId = state.timers.reduce(function(acc, value) {
       return acc > value.id ? acc : value.id
     }, 0);
-    const pushItem = {id: maxId + 1, name: `タイマーNo.${maxId + 1}`, sec:0, timerOn: false,}
+    const pushItem = {
+      id: maxId + 1,
+      name: `タイマーNo.${maxId + 1}`,
+      sec: 0,
+      timerOn: false
+    }
     state.timers.push(pushItem);
   },
   // 時間カード削除
